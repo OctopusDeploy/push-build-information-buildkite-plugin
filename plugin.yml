@@ -1,0 +1,66 @@
+name: Octopus Deploy Push Build Information
+description: Buildkite Plugin to push build information to Octopus Deploy
+author: https://github.com/OctopusDeploy
+requirements:
+  - octo
+configuration:
+  properties:
+    api_key:
+      type: string
+      description: 'The API key used to access Octopus Deploy. You must provide an API key or username and password. If the guest account is enabled, a key of API-GUEST may be used. It is strongly recommended that this value retrieved from a GitHub secret.'
+    config_file:
+      type: string
+      description: 'The path to a configuration file of default values with one "key=value" per line.'
+    debug:
+      type: boolean
+      default: false
+      description: 'Enable debug logging.'
+    ignore_ssl_errors:
+      default: false
+      description: 'Ignore certificate errors when communicating with Octopus Deploy. Warning: enabling this option creates a security vulnerability.'
+    log_level:
+      enum:
+        - verbose
+        - debug
+        - information
+        - warning
+        - error
+        - fatal
+      default: 'debug'
+      description: 'The log level; valid options are "verbose", "debug", "information", "warning", "error", and "fatal".'
+    overwrite_mode:
+      description: ''
+      default: 'FailIfExists'
+      enum:
+        - FailIfExists
+        - OverwriteExisting
+        - IgnoreIfExists
+    package-version:
+      type: string
+      description: 'The version of the package; defaults to a timestamp-based version.'
+    packages:
+      type: [string, array]
+      description: 'A single package ID or a list of package IDs.'
+    proxy:
+      type: string
+      description: 'The URL of a proxy to use (i.e. https://proxy.example.com).'
+    proxy_password:
+      type: string
+      description: 'The password used to connect to a proxy. It is strongly recommended to retrieve this value from a GitHub secret. If proxy_username and proxy_password are omitted and proxy URL is specified, the default credentials are used.'
+    proxy_username:
+      type: string
+      description: 'The username used to connect to a proxy. It is strongly recommended to retrieve this value from a GitHub secret.'
+    server:
+      type: string
+      description: 'The base URL hosting Octopus Deploy (i.e. "https://octopus.example.com/"). It is recommended to retrieve this value from an environment variable.'
+    space:
+      type: string
+      description: 'The name or ID of a space within which this command will be executed. If omitted, the default space will be used.'
+    timeout:
+      type: integer
+      default: 600
+      description: 'A timeout value in seconds for network operations.'
+  required:
+    - packages
+    - version
+  additionalProperties: false

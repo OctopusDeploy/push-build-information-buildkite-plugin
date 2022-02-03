@@ -1,0 +1,11 @@
+version: '3.4'
+services:
+  lint:
+    image: buildkite/plugin-linter:latest
+    command: ["--id", "https://github.com/OctopusDeploy/create-release-buildkite-plugin"]
+    volumes:
+      - ".:/plugin:ro"
+  tests:
+    image: buildkite/plugin-tester
+    volumes:
+      - ".:/plugin:ro"

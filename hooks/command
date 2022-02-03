@@ -1,0 +1,119 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_DEBUG:-false}" =~ (true|on|1) ]] ; then
+  echo "--- :hammer: Enabling debug mode"
+  env | sort | grep BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION
+fi
+
+# Reads either a value or a list from plugin config into a global result array
+# Returns success if values were read
+function plugin_read_list_into_result() {
+  local prefix="$1"
+  local parameter="${prefix}_0"
+  result=()
+
+  if [[ -n "${!parameter:-}" ]]; then
+    local i=0
+    local parameter="${prefix}_${i}"
+    while [[ -n "${!parameter:-}" ]]; do
+      result+=("${!parameter}")
+      i=$((i+1))
+      parameter="${prefix}_${i}"
+    done
+  elif [[ -n "${!prefix:-}" ]]; then
+    result+=("${!prefix}")
+  fi
+
+  [[ ${#result[@]} -gt 0 ]] || return 1
+}
+
+octo_version="${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_OCTO_VERSION:-latest}"
+
+#build information
+build_info=$(cat <<EOF
+{
+    "BuildEnvironment": "Buildkite",
+    "Branch": "${BUILDKITE_BRANCH}",
+    "BuildNumber": "${BUILDKITE_BUILD_NUMBER}",
+    "BuildUrl": "${BUILDKITE_BUILD_URL}",
+    "VcsType": "Git",
+    "VcsRoot": "${BUILDKITE_REPO}",
+    "VcsCommitNumber": "${BUILDKITE_COMMIT}"
+}
+EOF
+)
+
+echo "--- Generated build information JSON"
+echo "$build_info" | tee "octopus.buildinfo"
+
+cmd=( "build-information" )
+
+#config_file:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_CONFIG_FILE:-}" ]]; then
+    cmd+=( "--configFile" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_CONFIG_FILE}")
+fi
+
+#debug:
+if [[ "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_DEBUG:-false}" =~ ^(true|on|1)$ ]]; then
+    cmd+=( "--debug" )
+fi
+
+cmd+=( "--file" "octopus.buildinfo" )
+
+#ignore_ssl_errors:
+if [[ "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_IGNORE_SSL_ERRORS:-false}" =~ ^(true|on|1)$ ]]; then
+    cmd+=( "--ignoreSslErrors" )
+fi
+
+#log_level:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_LOG_LEVEL:-}" ]]; then
+    cmd+=( "--logLevel" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_LOG_LEVEL}")
+fi
+
+#overwrite-mode:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_OVERWRITE_MODE}" ]]; then
+    cmd+=( "--overwrite-mode" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_OVERWRITE_MODE}")
+fi
+
+#package-version:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGE_VERSION}" ]]; then
+    cmd+=( "--version" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGE_VERSION}")
+fi
+
+#packages:
+if plugin_read_list_into_result BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGES ; then
+  for package in "${result[@]}" ; do
+    cmd+=( "--package-id" "${package}" )
+  done
+fi
+
+#proxy:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PROXY:-}" ]]; then
+    cmd+=( "--proxy" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PROXY}" )
+fi
+
+#proxy_username:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PROXY_USERNAME:-}" ]]; then
+    cmd+=( "--proxyUser" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PROXY_USERNAME}" )
+fi
+
+#proxy_password:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PROXY_PASSWORD:-}" ]]; then
+    cmd+=( "--proxyPass" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PROXY_PASSWORD}" )
+fi
+
+#space:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_SPACE:-}" ]]; then
+    cmd+=( "--space" "\"${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_SPACE}\"" )
+fi
+
+#timeout:
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_TIMEOUT:-}" ]]; then
+    cmd+=( "--timeout" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_TIMEOUT}" )
+fi
+
+echo "+++ :octopus: Running build-information"
+echo "Running command: ${cmd[@]}"
+
+octo ${cmd[@]}
