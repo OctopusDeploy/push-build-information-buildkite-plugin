@@ -7,7 +7,7 @@ configuration:
   properties:
     api_key:
       type: string
-      description: 'The API key used to access Octopus Deploy. You must provide an API key or username and password. If the guest account is enabled, a key of API-GUEST may be used. It is strongly recommended that this value retrieved from a GitHub secret.'
+      description: 'The API key used to access Octopus Deploy. You must provide an API key or set the `OCTOPUS_CLI_API_KEY` environment variable. If the guest account is enabled, a key of API-GUEST may be used. It is strongly recommended that this value retrieved from an environment variable.'
     config_file:
       type: string
       description: 'The path to a configuration file of default values with one "key=value" per line.'
@@ -52,7 +52,7 @@ configuration:
       description: 'The username used to connect to a proxy. It is strongly recommended to retrieve this value from a GitHub secret.'
     server:
       type: string
-      description: 'The base URL hosting Octopus Deploy (i.e. "https://octopus.example.com/"). It is recommended to retrieve this value from an environment variable.'
+      description: 'The base URL hosting Octopus Deploy (i.e. "https://octopus.example.com/"). It is recommended to retrieve this value from the `OCTOPUS_CLI_SERVER` environment variable.'
     space:
       type: string
       description: 'The name or ID of a space within which this command will be executed. If omitted, the default space will be used.'
