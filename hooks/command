@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_DEBUG:-false}" =~ (true|on|1) ]] ; then
-  echo "--- :hammer: Enabling debug mode"
+  echo "--- :octopus-deploy: Enabling debug mode"
   env | sort | grep BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION
 fi
 
@@ -44,7 +44,7 @@ build_info=$(cat <<EOF
 EOF
 )
 
-echo "--- Generated build information JSON"
+echo "--- :octopus-deploy: Generated build information JSON"
 echo "$build_info" | tee "octopus.buildinfo"
 
 cmd=( "build-information" )
@@ -113,7 +113,21 @@ if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_TIMEOUT:-}" ]]; then
     cmd+=( "--timeout" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_TIMEOUT}" )
 fi
 
-echo "+++ :octopus: Running build-information"
-echo "Running command: ${cmd[@]}"
+args=()
+maskedArgs=()
+#server:
+if [[ -n "${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER:-}" ]]; then
+    args+=( "--server" "${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER}" )
+    maskedArgs+=( "--server" "${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER}" )
+fi
 
-octo ${cmd[@]}
+#api_key:
+if [[ -n "${BUILDKITE_PLUGIN_CREATE_RELEASE_API_KEY:-}" ]]; then
+    args+=( "--apiKey" "${BUILDKITE_PLUGIN_CREATE_RELEASE_API_KEY}" )
+    maskedArgs+=( "--apiKey" "SECRET" )
+fi
+
+echo "+++ :octopus-deploy: Running build-information"
+echo "Running command: ${cmd[@]} ${maskedArgs[@]}"
+
+octo ${cmd[@]} ${args[@]}
