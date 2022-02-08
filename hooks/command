@@ -51,7 +51,7 @@ cmd=( "build-information" )
 
 #config_file:
 if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_CONFIG_FILE:-}" ]]; then
-    cmd+=( "--configFile" "'${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_CONFIG_FILE}'")
+    cmd+=( "--configFile" "\"${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_CONFIG_FILE}\"")
 fi
 
 #debug:
@@ -59,7 +59,7 @@ if [[ "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_DEBUG:-false}" =~ ^(true|on|1)$
     cmd+=( "--debug" )
 fi
 
-cmd+=( "--file" "'${BUILDKITE_BUILD_CHECKOUT_PATH}/octopus.buildinfo'" )
+cmd+=( "--file" "\"${BUILDKITE_BUILD_CHECKOUT_PATH}/octopus.buildinfo\"" )
 
 #ignore_ssl_errors:
 if [[ "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_IGNORE_SSL_ERRORS:-false}" =~ ^(true|on|1)$ ]]; then
@@ -78,13 +78,13 @@ fi
 
 #package-version:
 if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGE_VERSION}" ]]; then
-    cmd+=( "--version" "'${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGE_VERSION}'")
+    cmd+=( "--version" "\"${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGE_VERSION}\"")
 fi
 
 #packages:
 if plugin_read_list_into_result BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGES ; then
   for package in "${result[@]}" ; do
-    cmd+=( "--package-id" "'${package}'" )
+    cmd+=( "--package-id" "\"${package}\"" )
   done
 fi
 
@@ -105,7 +105,7 @@ fi
 
 #space:
 if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_SPACE:-}" ]]; then
-    cmd+=( "--space" "'${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_SPACE}'" )
+    cmd+=( "--space" "\"${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_SPACE}\"" )
 fi
 
 #timeout:
@@ -117,13 +117,13 @@ args=()
 maskedArgs=()
 #server:
 if [[ -n "${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER:-}" ]]; then
-    args+=( "--server" "'${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER}'" )
-    maskedArgs+=( "--server" "'${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER}'" )
+    args+=( "--server" "\"${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER}\"" )
+    maskedArgs+=( "--server" "\"${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER}\"" )
 fi
 
 #api_key:
 if [[ -n "${BUILDKITE_PLUGIN_CREATE_RELEASE_API_KEY:-}" ]]; then
-    args+=( "--apiKey" "'${BUILDKITE_PLUGIN_CREATE_RELEASE_API_KEY}'" )
+    args+=( "--apiKey" "\"${BUILDKITE_PLUGIN_CREATE_RELEASE_API_KEY}\"" )
     maskedArgs+=( "--apiKey" "SECRET" )
 fi
 
