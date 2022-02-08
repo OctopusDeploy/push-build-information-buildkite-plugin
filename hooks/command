@@ -45,7 +45,7 @@ EOF
 )
 
 echo "--- :octopus-deploy: Generated build information JSON"
-echo "$build_info" | tee "octopus.buildinfo"
+echo "$build_info" | tee "${BUILDKITE_BUILD_CHECKOUT_PATH}/octopus.buildinfo"
 
 cmd=( "build-information" )
 
@@ -59,7 +59,7 @@ if [[ "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_DEBUG:-false}" =~ ^(true|on|1)$
     cmd+=( "--debug" )
 fi
 
-cmd+=( "--file" "octopus.buildinfo" )
+cmd+=( "--file" "${BUILDKITE_BUILD_CHECKOUT_PATH}/octopus.buildinfo" )
 
 #ignore_ssl_errors:
 if [[ "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_IGNORE_SSL_ERRORS:-false}" =~ ^(true|on|1)$ ]]; then
@@ -72,7 +72,7 @@ if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_LOG_LEVEL:-}" ]]; then
 fi
 
 #overwrite-mode:
-if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_OVERWRITE_MODE}" ]]; then
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_OVERWRITE_MODE:-}" ]]; then
     cmd+=( "--overwrite-mode" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_OVERWRITE_MODE}")
 fi
 
