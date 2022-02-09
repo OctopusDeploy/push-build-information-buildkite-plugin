@@ -3,7 +3,7 @@
 load "$BATS_PATH/load.bash"
 
 # Uncomment to enable stub debug output:
-export OCTO_STUB_DEBUG=/dev/tty
+# export OCTO_STUB_DEBUG=/dev/tty
 
 @test "Running push build information command" {
     export BUILDKITE_BRANCH="main"
@@ -16,7 +16,7 @@ export OCTO_STUB_DEBUG=/dev/tty
     export BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGES="MyApp.Web"
     export BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGE_VERSION="1.0.0"
 
-    stub octo 'build-information --file \"/tmp/octopus.buildinfo\" --version \"1.0.0\" --package-id \"MyApp.Web\" : echo octo command ran'
+    stub octo "build-information --file /tmp/octopus.buildinfo --version 1.0.0 --package-id MyApp.Web : echo octo command ran"
 
     run $PWD/hooks/command
 
@@ -47,7 +47,7 @@ export OCTO_STUB_DEBUG=/dev/tty
     export BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGES_1="MyApp.Data"
     export BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_PACKAGE_VERSION="1.0.0"
 
-    stub octo 'build-information --file \"/tmp/octopus.buildinfo\" --version \"1.0.0\" --package-id \"MyApp.Web\" --package-id \"MyApp.Data\" : echo octo command ran'
+    stub octo "build-information --file /tmp/octopus.buildinfo --version 1.0.0 --package-id MyApp.Web --package-id MyApp.Data : echo octo command ran"
 
     run $PWD/hooks/command
 
