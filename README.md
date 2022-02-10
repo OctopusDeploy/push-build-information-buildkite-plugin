@@ -23,20 +23,17 @@ More information about build information in Octopus Deploy:
 
 Incorporate the following step in your `pipeline.yml` to create a release in Octopus Deploy:
 
-**NOTE: These examples configure the Octopus server and API Key environment variables in the `pipeline.yml` file, this is NOT recommended and these should be configured as environment variables on the Buildkite agent.**
-
 ### Basic examples
 
 ```yml
 steps:
   - label: Push build info to Octopus Deploy 🐙
-    env:
-      OCTOPUS_CLI_SERVER: 'https://octopus.url'
-      OCTOPUS_CLI_API_KEY: 'API-xxxxxx'
     plugins: 
-      - OctopusDeploy/push-build-information@<version>
-        packages: 'HelloWorld'
-        package_version: '1.0.0'
+      - OctopusDeploy/push-build-information#v0.0.1:
+          api_key: "${MY_OCTOPUS_API_KEY}"
+          packages: "HelloWorld"
+          package_version: "1.0.0"
+          server: "${MY_OCTOPUS_SERVER}"
 ```
 
 **Overwriting existing build information for a package version**
@@ -44,14 +41,13 @@ steps:
 ```yml
 steps:
   - label: Push build info to Octopus Deploy 🐙
-    env:
-      OCTOPUS_CLI_SERVER: 'https://octopus.url'
-      OCTOPUS_CLI_API_KEY: 'API-xxxxxx'
     plugins: 
-      - OctopusDeploy/push-build-information@<version>
-        packages: 'HelloWorld'
-        package_version: '1.0.0'
-        overwrite_mode: 'OverwriteExisting'
+      - OctopusDeploy/push-build-information#v0.0.1:
+          api_key: "${MY_OCTOPUS_API_KEY}"
+          packages: "HelloWorld"
+          package_version: "1.0.0"
+          overwrite_mode: "OverwriteExisting"
+          server: "${MY_OCTOPUS_SERVER}"
 ```
 
 ## 📥 Inputs
