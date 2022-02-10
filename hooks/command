@@ -128,6 +128,8 @@ if [[ -n "${BUILDKITE_PLUGIN_CREATE_RELEASE_API_KEY:-}" ]]; then
 fi
 
 echo "+++ :octopus-deploy: Running build-information"
+# shellcheck disable=SC2145
 echo "Running command: ${cmd[@]} ${maskedArgs[@]}"
 
+# shellcheck disable=SC2145 # cmd and args needs to be quoted correctly, and this code is correct
 octo "${cmd[@]}" "${args[@]}"
