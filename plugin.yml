@@ -35,7 +35,7 @@ configuration:
         - FailIfExists
         - OverwriteExisting
         - IgnoreIfExists
-    package-version:
+    package_version:
       type: string
       description: 'The version of the package; defaults to a timestamp-based version.'
     packages:
@@ -62,5 +62,5 @@ configuration:
       description: 'A timeout value in seconds for network operations.'
   required:
     - packages
-    - version
+    - package_version
   additionalProperties: false
