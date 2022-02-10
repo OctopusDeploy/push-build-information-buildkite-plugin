@@ -28,8 +28,6 @@ function plugin_read_list_into_result() {
   [[ ${#result[@]} -gt 0 ]] || return 1
 }
 
-octo_version="${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_OCTO_VERSION:-latest}"
-
 #build information
 build_info=$(cat <<EOF
 {
