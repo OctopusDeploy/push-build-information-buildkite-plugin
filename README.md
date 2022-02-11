@@ -27,7 +27,7 @@ Incorporate the following step in your `pipeline.yml` to create a release in Oct
 
 ```yml
 steps:
-  - label: :octopus-deploy: Push build info to Octopus Deploy
+  - label: ":octopus-deploy: Push build info to Octopus Deploy"
     plugins: 
       - OctopusDeploy/push-build-information#v0.0.1:
           api_key: "${MY_OCTOPUS_API_KEY}"
@@ -40,7 +40,7 @@ steps:
 
 ```yml
 steps:
-  - label: :octopus-deploy: Push build info to Octopus Deploy
+  - label: ":octopus-deploy: Push build info to Octopus Deploy"
     plugins: 
       - OctopusDeploy/push-build-information#v0.0.1:
           api_key: "${MY_OCTOPUS_API_KEY}"
