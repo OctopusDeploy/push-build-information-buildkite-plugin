@@ -1,6 +1,8 @@
 # Push Build Information Buildkite Plugin
 
-This is a Buildkite plugin to push build information to [Octopus Deploy](https://octopus.com/). 
+![image](https://user-images.githubusercontent.com/71493/153728135-2c803276-3dfe-4a9d-899d-2ca9dcc05cce.png)
+
+This is a [Buildkite](https://buildkite.com/) plugin to push build information to [Octopus Deploy](https://octopus.com/). 
 
 **This plugin requires [Octopus CLI](https://octopus.com/downloads/octopuscli) to be installed on the Buildkite agent.**
 
