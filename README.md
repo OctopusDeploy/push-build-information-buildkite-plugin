@@ -52,6 +52,16 @@ steps:
           server: "${MY_OCTOPUS_SERVER}"
 ```
 
+## Configuring
+
+### `OCTOPUS_CLI_SERVER`
+
+Your Octopus Server URL should be set to this environment variable, or you can use `server` in the steps of your pipeline instead.
+
+### `OCTOPUS_CLI_API_KEY`
+
+Your Octopus Server API key should be set to this environment variable, either in your pipeline’s environment variable settings or exposed in an [environment hook](https://buildkite.com/docs/pipelines/secrets#storing-secrets-in-environment-hooks). If you need different keys for different steps in your pipeline use `api_key` instead.
+
 ## 📥 Inputs
 
 **The following inputs are required:**
@@ -64,7 +74,7 @@ steps:
 
 | Name                           | Description                                                                                                                                                                                                                                                          |  Default   |
 | :----------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------: |
-| `api_key`                      | The API key used to access Octopus Deploy. You must provide an API key or set the `OCTOPUS_CLI_API_KEY` environment variable. If the guest account is enabled, a key of API-GUEST may be used. It is strongly recommended that this value retrieved from an environment variable.
+| `api_key`                      | The environment variable that is configured with your Octopus Server API key used to access Octopus Deploy. Use this if you need to specify different keys for different steps in your pipeline.
 | `config_file`                  | The path to a configuration file of default values with one `key=value` per line.                                                                                                                                                                                    |            |
 | `debug`                        | Enable debug logging.                                                                                                                                                                                                                                                |  `false`   |
 | `ignore_ssl_errors`            | Ignore certificate errors when communicating with Octopus Deploy. Warning: enabling this option creates a security vulnerability.                                                                                                                                    |  `false`   |

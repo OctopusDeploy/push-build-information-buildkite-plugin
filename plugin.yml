@@ -7,7 +7,7 @@ configuration:
   properties:
     api_key:
       type: string
-      description: 'The API key used to access Octopus Deploy. You must provide an API key or set the `OCTOPUS_CLI_API_KEY` environment variable. If the guest account is enabled, a key of API-GUEST may be used. It is strongly recommended that this value retrieved from an environment variable.'
+      description: 'Specifies the environment variable containing the Octopus Server API key'
     config_file:
       type: string
       description: 'The path to a configuration file of default values with one "key=value" per line.'
