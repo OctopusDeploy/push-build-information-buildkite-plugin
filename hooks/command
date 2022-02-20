@@ -114,14 +114,14 @@ fi
 args=()
 maskedArgs=()
 #server:
-if [[ -n "${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER:-}" ]]; then
-    args+=( "--server" "${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER}" )
-    maskedArgs+=( "--server" "${BUILDKITE_PLUGIN_CREATE_RELEASE_SERVER}" )
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_SERVER:-}" ]]; then
+    args+=( "--server" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_SERVER}" )
+    maskedArgs+=( "--server" "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_SERVER}" )
 fi
 
 #api_key:
-if [[ -n "${BUILDKITE_PLUGIN_CREATE_RELEASE_API_KEY:-}" ]]; then
-    args+=( "--apiKey" "${BUILDKITE_PLUGIN_CREATE_RELEASE_API_KEY}" )
+if [[ -n "${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_API_KEY:-}" ]]; then
+    args+=( "--apiKey" "$(eval "echo \$${BUILDKITE_PLUGIN_PUSH_BUILD_INFORMATION_API_KEY}")" )
     maskedArgs+=( "--apiKey" "SECRET" )
 fi
 
