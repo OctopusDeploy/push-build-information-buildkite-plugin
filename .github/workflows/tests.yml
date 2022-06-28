@@ -1,10 +1,11 @@
----
 name: tests
 on:
-  push: 
-    branches:
-      - main
-  pull_request:
+  push:
+
+  schedule:
+    # Daily 5am australian/brisbane time (7pm UTC)
+    - cron: '0 19 * * *'
+
 jobs:
   plugin-tests:
     name: Tests
