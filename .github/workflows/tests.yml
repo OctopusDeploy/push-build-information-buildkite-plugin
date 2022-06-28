@@ -11,7 +11,7 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     container:
-      image: buildkite/plugin-tester:latest
+      image: buildkite/plugin-tester:v1.1.0
       volumes:
         - "${{github.workspace}}:/plugin"
     steps:
