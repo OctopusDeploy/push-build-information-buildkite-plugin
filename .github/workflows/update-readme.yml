@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - release-please--**
+name: "Update README"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.INTEGRATIONS_FNM_BOT_TOKEN }}
+      - name: Update README
+        run: |-
+          VERSION=$(cat version.txt)
+          sed -i "s/\(OctopusDeploy\/create-release#\).*/\1v${VERSION}/g" README.md
+      - name: commit
+        run: |-
+          git config --global user.name "team-integrations-fnm-bot"
+          git config user.email 'integrationsfnmbot@octopus.com'
+          git add README.md
+          git diff-index --quiet HEAD || (git commit -m "chore: update README" && git push origin)
