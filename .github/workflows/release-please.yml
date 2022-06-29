@@ -3,8 +3,6 @@ on:
     branches:
       - main
 name: release-please
-env:
-  PLUGIN_NAME: push-build-information-buildkite-plugin
 jobs:
   release-please-release:
     runs-on: ubuntu-latest
@@ -12,7 +10,6 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
-          package-name: ${{ env.PLUGIN_NAME }}
           release-type: simple
           token: ${{ github.token }}
           command: github-release
@@ -40,5 +37,4 @@ jobs:
         with:
           token: ${{ secrets.INTEGRATIONS_FNM_BOT_TOKEN }}
           release-type: simple
-          package-name: ${{ env.PLUGIN_NAME }}
           command: release-pr
