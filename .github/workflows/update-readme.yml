@@ -13,7 +13,7 @@ jobs:
       - name: Update README
         run: |-
           VERSION=$(cat version.txt)
-          sed -i "s/\(OctopusDeploy\/create-release#\).*/\1v${VERSION}/g" README.md
+          sed -i "s/\(OctopusDeploy\/push-build-information#\).*/\1v${VERSION}/g" README.md
       - name: commit
         run: |-
           git config --global user.name "team-integrations-fnm-bot"
