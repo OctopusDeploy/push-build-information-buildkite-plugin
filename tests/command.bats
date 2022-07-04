@@ -1,9 +1,11 @@
 #!/usr/bin/env bats
 
-load "$BATS_PATH/load.bash"
+setup() {
+    load "$BATS_PATH/load.bash"
 
-# Uncomment to enable stub debug output:
-# export OCTO_STUB_DEBUG=/dev/tty
+    # Uncomment to enable stub debug output:
+    # export OCTO_STUB_DEBUG=/dev/tty
+}
 
 @test "Running push build information command" {
     export BUILDKITE_BRANCH="main"

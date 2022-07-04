@@ -1,20 +1,21 @@
----
 name: tests
 on:
-  push: 
-    branches:
-      - main
-  pull_request:
+  push:
+
+  schedule:
+    # Daily 5am australian/brisbane time (7pm UTC)
+    - cron: '0 19 * * *'
+
 jobs:
   plugin-tests:
     name: Tests
     runs-on: ubuntu-latest
     container:
-      image: buildkite/plugin-tester:latest
+      image: buildkite/plugin-tester:v1.1.0
       volumes:
         - "${{github.workspace}}:/plugin"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: tests
         run: bats tests/
   plugin-lint:
@@ -25,14 +26,14 @@ jobs:
       volumes:
         - "${{github.workspace}}:/plugin"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: lint
         run: lint --id OctopusDeploy/push-build-information
   plugin-shellcheck:
     name: Shellcheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@1.1.0
         with:
