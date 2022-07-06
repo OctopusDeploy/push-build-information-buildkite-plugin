@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/71493/153728135-2c803276-3dfe-4a9d-899d-2ca9dcc05cce.png)
 
-This is a [Buildkite](https://buildkite.com/) plugin to push build information to [Octopus Deploy](https://octopus.com/). 
+This is a [Buildkite](https://buildkite.com/) plugin to push build information to [Octopus Deploy](https://octopus.com/).
 
 **This plugin requires [Octopus CLI](https://octopus.com/downloads/octopuscli) to be installed on the Buildkite agent.**
 
@@ -30,7 +30,7 @@ Incorporate the following step in your `pipeline.yml` to create a release in Oct
 ```yml
 steps:
   - label: ":octopus-deploy: Push build info to Octopus Deploy"
-    plugins: 
+    plugins:
       - OctopusDeploy/push-build-information#v0.1.1:
           api_key: "${MY_OCTOPUS_API_KEY}"
           packages: "HelloWorld"
@@ -43,7 +43,7 @@ steps:
 ```yml
 steps:
   - label: ":octopus-deploy: Push build info to Octopus Deploy"
-    plugins: 
+    plugins:
       - OctopusDeploy/push-build-information#v0.1.1:
           api_key: "${MY_OCTOPUS_API_KEY}"
           packages: "HelloWorld"
@@ -65,27 +65,27 @@ Your Octopus Server API key should be set to this environment variable, either i
 ## 📥 Inputs
 
 **The following inputs are required:**
-| Name                           | Description                                                                                                                                                                                                                                                                       |
+| Name | Description |
 | :----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `packages`                     | A single package ID or a list of package IDs.                                                                                           |
-| `package_version`              | The version of the package; defaults to a timestamp-based version.                                                                                                                                                                       |
+| `packages` | A single package ID or a list of package IDs. |
+| `package_version` | The version of the package; defaults to a timestamp-based version. |
 
 **The following inputs are optional:**
 
-| Name                           | Description                                                                                                                                                                                                                                                          |  Default   |
-| :----------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------: |
-| `api_key`                      | The environment variable that is configured with your Octopus Server API key used to access Octopus Deploy. Use this if you need to specify different keys for different steps in your pipeline.
-| `config_file`                  | The path to a configuration file of default values with one `key=value` per line.                                                                                                                                                                                    |            |
-| `debug`                        | Enable debug logging.                                                                                                                                                                                                                                                |  `false`   |
-| `ignore_ssl_errors`            | Ignore certificate errors when communicating with Octopus Deploy. Warning: enabling this option creates a security vulnerability.                                                                                                                                    |  `false`   |
-| `log_level`                    | The log level; valid options are `verbose`, `debug`, `information`, `warning`, `error`, and `fatal`.                                                                                                                                                                 |  `debug`   |
-| `overwrite_mode`               | Determines behavior if the package already exists in the repository. Valid values are `FailIfExists`, `OverwriteExisting` and `IgnoreIfExists`.                                                                                                                                                                                                        | `FailIfExists` |
-| `proxy`                        | The URL of a proxy to use (i.e. `https://proxy.example.com`).                                                                                                                                                                                                        |            |
-| `proxy_password`               | The password used to connect to a proxy. It is strongly recommended following the guidelines in the Buildkite [Managing Pipeline Secrets docs](https://buildkite.com/docs/pipelines/secrets). If `proxy_username` and `proxy_password` are omitted and `proxy` is specified, the default credentials are used.                                    |            |
-| `proxy_username`               | The username used to connect to a proxy. It is strongly recommended following the guidelines in the Buildkite [Managing Pipeline Secrets docs](https://buildkite.com/docs/pipelines/secrets).                                                                                                                                                     |            |
-| `server`                       | The base URL hosting Octopus Deploy (i.e. "https://octopus.example.com/"). It is recommended to retrieve this value from the `OCTOPUS_CLI_SERVER` environment variable.                                                                                                                                                    |            |
-| `space`                        | The name or ID of a space within which this command will be executed. If omitted, the default space will be used.                                                                                                                                                    |            |
-| `timeout`                      | A timeout value for network operations (in seconds).                                                                                                                                                                                                                 |   `600`    |
+| Name                | Description                                                                                                                                                                                                                                                                                                    |    Default     |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------: |
+| `api_key`           | The environment variable that is configured with your Octopus Server API key used to access Octopus Deploy. Use this if you need to specify different keys for different steps in your pipeline.                                                                                                               |
+| `config_file`       | The path to a configuration file of default values with one `key=value` per line.                                                                                                                                                                                                                              |                |
+| `debug`             | Enable debug logging.                                                                                                                                                                                                                                                                                          |    `false`     |
+| `ignore_ssl_errors` | Ignore certificate errors when communicating with Octopus Deploy. Warning: enabling this option creates a security vulnerability.                                                                                                                                                                              |    `false`     |
+| `log_level`         | The log level; valid options are `verbose`, `debug`, `information`, `warning`, `error`, and `fatal`.                                                                                                                                                                                                           |    `debug`     |
+| `overwrite_mode`    | Determines behavior if the package already exists in the repository. Valid values are `FailIfExists`, `OverwriteExisting` and `IgnoreIfExists`.                                                                                                                                                                | `FailIfExists` |
+| `proxy`             | The URL of a proxy to use (i.e. `https://proxy.example.com`).                                                                                                                                                                                                                                                  |                |
+| `proxy_password`    | The password used to connect to a proxy. It is strongly recommended following the guidelines in the Buildkite [Managing Pipeline Secrets docs](https://buildkite.com/docs/pipelines/secrets). If `proxy_username` and `proxy_password` are omitted and `proxy` is specified, the default credentials are used. |                |
+| `proxy_username`    | The username used to connect to a proxy. It is strongly recommended following the guidelines in the Buildkite [Managing Pipeline Secrets docs](https://buildkite.com/docs/pipelines/secrets).                                                                                                                  |                |
+| `server`            | The base URL hosting Octopus Deploy (i.e. "https://octopus.example.com/"). It is recommended to retrieve this value from the `OCTOPUS_CLI_SERVER` environment variable.                                                                                                                                        |                |
+| `space`             | The name or ID of a space within which this command will be executed. If omitted, the default space will be used.                                                                                                                                                                                              |                |
+| `timeout`           | A timeout value for network operations (in seconds).                                                                                                                                                                                                                                                           |     `600`      |
 
 ## Developing
 
@@ -100,3 +100,7 @@ To lint the plugin:
 ```shell
 docker-compose run --rm lint
 ```
+
+## 🤝 Contributions
+
+Contributions are welcome! :heart: Please read our [Contributing Guide](CONTRIBUTING.md) for information about how to get involved in this project.
