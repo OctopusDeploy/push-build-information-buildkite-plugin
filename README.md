@@ -13,8 +13,6 @@ When deploying a release, it is useful to know which build produced the artifact
 Build information is associated with a package and includes:
 
 - Build URL: A link to the build which produced the package.
-- Commits: Details of the source commits related to the build.
-- Issues: Issue references parsed from the commit messages.
 
 More information about build information in Octopus Deploy:
 
