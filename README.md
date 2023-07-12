@@ -21,6 +21,10 @@ More information about build information in Octopus Deploy:
 - [Build information](https://octopus.com/docs/packaging-applications/build-servers/build-information)
 - [Push build information](https://octopus.com/docs/octopus-rest-api/octopus-cli/build-information)
 
+## Limitations
+
+Due to limitations in what details are made available to plugins in Buildkite, we are unable to include any commit details in the build information that is pushed to Octopus.
+
 ## Examples
 
 Incorporate the following step in your `pipeline.yml` to create a release in Octopus Deploy:
