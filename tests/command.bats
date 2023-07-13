@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 setup() {
-    load "$BATS_PATH/load.bash"
+    load "$BATS_PLUGIN_PATH/load.bash"
 
     # Uncomment to enable stub debug output:
     # export OCTO_STUB_DEBUG=/dev/tty
