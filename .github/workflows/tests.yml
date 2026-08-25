@@ -1,40 +1,37 @@
+---
 name: tests
 on:
   push:
-
+    branches:
+      - main
+  pull_request:
   schedule:
     # Daily 5am australian/brisbane time (7pm UTC)
     - cron: '0 19 * * *'
-
 jobs:
+  # Not run inside `container:` — GitHub's Node 24 Alpine binary needs a newer
+  # musl than the buildkite/plugin-* images ship, so actions/checkout cannot
+  # start in them. Going via compose also keeps CI and local runs identical.
   plugin-tests:
     name: Tests
     runs-on: ubuntu-latest
-    container:
-      image: buildkite/plugin-tester:v4.1.0
-      volumes:
-        - "${{github.workspace}}:/plugin"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: tests
-        run: bats tests/
+        run: docker compose run --rm tests
   plugin-lint:
     name: Lint
     runs-on: ubuntu-latest
-    container:
-      image: buildkite/plugin-linter:latest
-      volumes:
-        - "${{github.workspace}}:/plugin"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: lint
-        run: lint --id OctopusDeploy/push-build-information
+        run: docker compose run --rm lint
   plugin-shellcheck:
     name: Shellcheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@1.1.0
+        uses: ludeeus/action-shellcheck@2.0.0
         with:
           check_together: 'yes'
